@@ -23,3 +23,13 @@ link_config() {
 }
 link_config "$repo_dir/nvim" "$HOME/.config/nvim"
 link_config "$repo_dir/wezterm" "$HOME/.config/wezterm"
+link_config "$repo_dir/shell" "$HOME/.config/dotfiles-shell"
+zshrc="$HOME/.zshrc"
+hook='# dotfiles shell configuration'
+if ! [ -f "$zshrc" ] || ! grep -Fqx "$hook" "$zshrc"; then
+  printf '\n%s\n%s\n' "$hook" '[ -r "$HOME/.config/dotfiles-shell/zsh/config.zsh" ] && source "$HOME/.config/dotfiles-shell/zsh/config.zsh"' >> "$zshrc"
+  printf 'Added shell configuration to: %s\n' "$zshrc"
+fi
+if [ ! -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && [ ! -r /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  printf 'Install suggestions with: brew install zsh-autosuggestions\n'
+fi
