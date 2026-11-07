@@ -9,3 +9,7 @@ if (Get-Module -ListAvailable PSReadLine) {
         Set-PSReadLineOption -PredictionViewStyle InlineView
     }
 }
+
+if (Get-Command zoxide -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& { (zoxide init powershell | Out-String) })
+}

@@ -15,3 +15,11 @@ for plugin in /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh /u
   fi
 done
 unset plugin
+
+# Optional CLI integrations.
+if (( $+commands[fzf] )); then
+  source <(fzf --zsh)
+fi
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
+fi

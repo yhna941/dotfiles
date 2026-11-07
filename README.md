@@ -64,3 +64,17 @@ The leader key is Space. Press it and pause to explore available commands.
 ## Maintenance
 
 Edit `nvim/` or `wezterm/wezterm.lua`, then commit and push your changes. Pull them on your other machine. Do not commit passwords, tokens, or private keys.
+
+## CLI tools
+
+Install the optional command-line tools with Homebrew on macOS or winget on Windows:
+
+```sh
+./scripts/install-cli-macos.sh
+```
+
+```powershell
+.\scripts\install-cli-windows.ps1
+```
+
+Open a new terminal after installation, especially on Windows so PATH changes take effect. The scripts install `fzf` (interactive search), `zoxide` (frequent directory navigation), `ripgrep` (`rg`, content search), `fd` (file search), `bat` (syntax-highlighted file viewing), and `lazygit` (Git terminal interface). In zsh, fzf adds `Ctrl-R` history search and `Ctrl-T` file search; zoxide adds `z` and `zi` in zsh and PowerShell. PowerShell fzf key bindings are not configured. Tools are initialized only when available.
