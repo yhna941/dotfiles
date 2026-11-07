@@ -1,25 +1,14 @@
 # Dotfiles
 
-A shared LazyVim, WezTerm, zsh, and PowerShell configuration for macOS and Windows. It uses LazyVim defaults, the Catppuccin Latte terminal and editor theme, and JetBrains Mono.
-
-## What's included
-
-- **Python:** LazyVim's Python extra, including Python language server support and Ruff integration.
-- **C/C++:** the clangd extra for completion, diagnostics, and navigation.
-- **Docker:** Dockerfile and Docker Compose language support.
-- **YAML:** language server and schema support for files such as Kubernetes manifests. Schema detection depends on the file and project configuration.
-- **WezTerm:** a readable font, Catppuccin Latte colors, and the default terminal shortcuts.
-- **zsh and PowerShell:** tab completion and history-based inline suggestions.
-
-LazyVim also provides file search, project search, Git integration, completion, and diagnostics. Language servers and related tools may need to be installed on each machine through `:Mason`. Docker, kubectl, compilers, Python, and other runtime tools are installed separately.
+LazyVim, WezTerm, zsh, and PowerShell configuration for macOS, Linux, and Windows. The editor and terminal use Catppuccin Latte and JetBrains Mono.
 
 ## Requirements
 
-Install Git, Neovim, WezTerm, curl, ripgrep, fd, a C compiler, and tree-sitter CLI. A Nerd Font is recommended for icons. See the [LazyVim requirements](https://www.lazyvim.org/) for current details.
+Git, Neovim, WezTerm, curl, ripgrep, fd, a C compiler, and tree-sitter CLI. A Nerd Font is recommended. See [LazyVim requirements](https://www.lazyvim.org/) for details.
 
-## Setup
+## Installation
 
-Clone this repository to a stable location. The scripts back up existing configuration before linking it to this repository. Moving or deleting the repository breaks the links.
+Clone the repository to a permanent location. Installers back up existing configuration and create links to the repository.
 
 macOS:
 
@@ -29,7 +18,15 @@ cd ~/dev/dotfiles
 ./scripts/install-macos.sh
 ```
 
-Windows PowerShell (native Neovim):
+Linux, including WSL:
+
+```sh
+git clone <repository-url> ~/dev/dotfiles
+cd ~/dev/dotfiles
+./scripts/install-linux.sh
+```
+
+Windows PowerShell, for native Neovim:
 
 ```powershell
 git clone <repository-url> "$HOME\dev\dotfiles"
@@ -37,37 +34,37 @@ cd "$HOME\dev\dotfiles"
 .\scripts\install-windows.ps1
 ```
 
-The Windows script uses directory junctions. WezTerm may read a different configuration file if a higher-priority file exists. WSL is a separate Linux environment: configure Neovim and install its tools inside WSL separately.
+The Windows installer uses directory junctions and updates the current host's PowerShell profile. Run it in the PowerShell version used by WezTerm. PowerShell 7 and PSReadLine are recommended. A higher-priority WezTerm configuration may override the installed file.
 
-On macOS, install suggestions with `brew install zsh-autosuggestions`. Open a new WezTerm tab to load the zsh settings. Press Tab to complete and Right Arrow to accept a history suggestion. Existing zsh settings are preserved.
+Install `zsh-autosuggestions` for zsh history suggestions (`brew install zsh-autosuggestions` on macOS). On Linux, install dependencies through the distribution package manager. WSL requires its own Neovim and tools; WezTerm can run on Windows and connect to WSL.
 
-On Windows, the installer adds a hook to the current host profile; run it from the PowerShell version you use in WezTerm. PowerShell 7 with PSReadLine is recommended. Open a new terminal after installation. Existing profile content is preserved.
+Restart the terminal and run `nvim`. Use `:LazyHealth` to check dependencies and `:Mason` to inspect language tools. Commit `nvim/lazy-lock.json` to share plugin versions.
 
-Restart WezTerm and run `nvim`. Plugins may be installed on first launch. Run `:LazyHealth` to check the environment and `:Mason` to inspect language tools. Commit the generated `nvim/lazy-lock.json` to share plugin versions.
+## Editor
 
-For CMake projects, generate compile commands with `cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON` so clangd can understand project settings. Python projects can use their own virtual environment.
+LazyVim extras configure Python, clangd, Docker, and YAML support. Install runtimes, compilers, Docker, kubectl, and other project tools separately. YAML schema detection depends on the project.
 
-## Common shortcuts
+For CMake projects, generate compile commands with:
 
-The leader key is Space. Press it and pause to explore available commands.
+```sh
+cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+```
+
+The leader key is Space:
 
 - `Space Space`: find files
 - `Space /`: search project contents
 - `Space e`: file explorer
-- `gd`: go to definition; `Ctrl-o`: go back
+- `gd`: definition; `Ctrl-o`: back
 - `K`: documentation
 - `Space ca`: code actions
 - `Space cr`: rename
 - `Space cf`: format
-- `:Lazy`, `:LazyExtras`, `:Mason`: manage plugins, extras, and tools
-
-## Maintenance
-
-Edit `nvim/` or `wezterm/wezterm.lua`, then commit and push your changes. Pull them on your other machine. Do not commit passwords, tokens, or private keys.
+- `:Lazy`, `:LazyExtras`, `:Mason`: manage plugins and tools
 
 ## CLI tools
 
-Install the optional command-line tools with Homebrew on macOS or winget on Windows:
+Optional installers for macOS and Windows:
 
 ```sh
 ./scripts/install-cli-macos.sh
@@ -77,4 +74,6 @@ Install the optional command-line tools with Homebrew on macOS or winget on Wind
 .\scripts\install-cli-windows.ps1
 ```
 
-Open a new terminal after installation, especially on Windows so PATH changes take effect. The scripts install `fzf` (interactive search), `zoxide` (frequent directory navigation), `ripgrep` (`rg`, content search), `fd` (file search), `bat` (syntax-highlighted file viewing), and `lazygit` (Git terminal interface). In zsh, fzf adds `Ctrl-R` history search and `Ctrl-T` file search; zoxide adds `z` and `zi` in zsh and PowerShell. PowerShell fzf key bindings are not configured. Tools are initialized only when available.
+They install fzf, zoxide, ripgrep, fd, bat, and lazygit. On Linux, use the distribution package manager. Restart the terminal after installation.
+
+When available, fzf provides `Ctrl-R` and `Ctrl-T` bindings in zsh, and zoxide provides `z` and `zi` in zsh and PowerShell. PowerShell fzf bindings are not configured.
