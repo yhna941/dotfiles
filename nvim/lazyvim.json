@@ -1,0 +1,12 @@
+{
+  "extras": [
+    "lang.clangd",
+    "lang.docker",
+    "lang.python",
+    "lang.yaml"
+  ],
+  "news": {
+    "NEWS.md": "11866"
+  },
+  "version": 8
+}
