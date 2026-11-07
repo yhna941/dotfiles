@@ -28,3 +28,12 @@ if ($ExistingProfile -notmatch [regex]::Escape($Hook)) {
     Add-Content -LiteralPath $ProfilePath -Value $Lines -Encoding UTF8
     Write-Host "Added shell configuration to: $ProfilePath"
 }
+
+if (-not (Get-Command oh-my-posh -ErrorAction SilentlyContinue)) {
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+        throw 'Install Oh My Posh or winget, then rerun this installer.'
+    }
+    winget install --id JanDeDobbeleer.OhMyPosh --exact --source winget --accept-package-agreements --accept-source-agreements
+    if ($LASTEXITCODE -ne 0) { throw "winget failed to install Oh My Posh (exit code $LASTEXITCODE)." }
+    Write-Host 'Restart PowerShell to load Oh My Posh.'
+}

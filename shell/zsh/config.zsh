@@ -1,6 +1,16 @@
 # Shared interactive zsh settings.
-autoload -Uz compinit
-compinit
+if [[ -z ${DOTFILES_OMZ_LOADED:-} ]] && (( ! $+functions[omz] )); then
+  export ZSH=${ZSH:-$HOME/.oh-my-zsh}
+  if [[ -r $ZSH/oh-my-zsh.sh ]]; then
+    ZSH_THEME=${ZSH_THEME:-robbyrussell}
+    plugins=(git)
+    source "$ZSH/oh-my-zsh.sh"
+    DOTFILES_OMZ_LOADED=1
+  else
+    autoload -Uz compinit
+    compinit
+  fi
+fi
 setopt AUTO_MENU AUTO_LIST COMPLETE_IN_WORD
 setopt HIST_IGNORE_DUPS SHARE_HISTORY
 HISTSIZE=10000

@@ -1,6 +1,20 @@
 #!/bin/sh
 set -eu
 repo_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+if ! command -v zsh >/dev/null 2>&1; then
+  if ! command -v brew >/dev/null 2>&1; then
+    printf 'Install zsh or Homebrew before running this installer.\n' >&2
+    exit 1
+  fi
+  brew install zsh
+fi
+omz_dir=${ZSH:-$HOME/.oh-my-zsh}
+if [ ! -e "$omz_dir" ]; then
+  git clone https://github.com/ohmyzsh/ohmyzsh.git "$omz_dir"
+elif [ ! -r "$omz_dir/oh-my-zsh.sh" ]; then
+  printf 'Oh My Zsh directory exists but is invalid: %s\n' "$omz_dir" >&2
+  exit 1
+fi
 mkdir -p "$HOME/.config"
 link_config() {
   source_path=$1

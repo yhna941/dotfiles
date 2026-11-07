@@ -34,7 +34,9 @@ cd "$HOME\dev\dotfiles"
 .\scripts\install-windows.ps1
 ```
 
-The Windows installer uses directory junctions and updates the current host's PowerShell profile. Run it in the PowerShell version used by WezTerm. PowerShell 7 and PSReadLine are recommended. A higher-priority WezTerm configuration may override the installed file.
+The macOS installer installs zsh with Homebrew if needed. The Linux installer installs zsh with apt, dnf, or pacman if needed; on other distributions, install it with your package manager first. Both installers clone [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) into `${ZSH:-$HOME/.oh-my-zsh}` when absent, without changing your default shell. Start zsh manually or set it as your login shell with `chsh -s "$(command -v zsh)"`. The shared configuration enables its `git` plugin and `robbyrussell` theme.
+
+The Windows installer installs [Oh My Posh](https://ohmyposh.dev/docs/installation/windows) using winget if needed; PowerShell and PSReadLine provide the shell and interactive editing. Restart PowerShell after installation. The Windows installer uses directory junctions and updates the current host's PowerShell profile. Run it in the PowerShell version used by WezTerm. PowerShell 7 and PSReadLine are recommended. A higher-priority WezTerm configuration may override the installed file.
 
 Install `zsh-autosuggestions` for zsh history suggestions (`brew install zsh-autosuggestions` on macOS). On Linux, install dependencies through the distribution package manager. WSL requires its own Neovim and tools; WezTerm can run on Windows and connect to WSL.
 

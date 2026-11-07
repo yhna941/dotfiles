@@ -13,3 +13,8 @@ if (Get-Module -ListAvailable PSReadLine) {
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
+
+# Oh My Posh supplies the prompt; PSReadLine handles completion and history.
+if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
+    oh-my-posh init pwsh | Invoke-Expression
+}

@@ -1,6 +1,26 @@
 #!/bin/sh
 set -eu
 repo_dir=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+if ! command -v zsh >/dev/null 2>&1; then
+  if command -v apt-get >/dev/null 2>&1; then
+    sudo apt-get update
+    sudo apt-get install -y zsh
+  elif command -v dnf >/dev/null 2>&1; then
+    sudo dnf install -y zsh
+  elif command -v pacman >/dev/null 2>&1; then
+    sudo pacman -S --needed --noconfirm zsh
+  else
+    printf 'Install zsh using your distribution package manager, then rerun this installer.\n' >&2
+    exit 1
+  fi
+fi
+omz_dir=${ZSH:-$HOME/.oh-my-zsh}
+if [ ! -e "$omz_dir" ]; then
+  git clone https://github.com/ohmyzsh/ohmyzsh.git "$omz_dir"
+elif [ ! -r "$omz_dir/oh-my-zsh.sh" ]; then
+  printf 'Oh My Zsh directory exists but is invalid: %s\n' "$omz_dir" >&2
+  exit 1
+fi
 mkdir -p "$HOME/.config"
 link_config() {
   source_path=$1
